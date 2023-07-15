@@ -2,46 +2,51 @@ import { useState } from "react";
 
 const Box = () => {
   const [count, setCount] = useState(0);
-  const ethPrice = 5; 
-  const value = count * ethPrice;
+const ethPrice = 0.05;
+const value = (count * ethPrice).toFixed(4).substring(0, 4);
 
-  const handleIncrement = () => {
+const handleIncrement = () => {
+  if (count < 10) {
     setCount(count + 1);
-  };
+  }
+  
+};
 
-  const handleDecrement = () => {
-    if (count > 0) {
-      setCount(count - 1);
-    }
-  };
+const handleDecrement = () => {
+  if (count > 0) {
+    setCount(count - 1);
+  }
+};
 
   return (
-    <div className="mt-20 ml-20 w-[27%] h-56 relative" >
-      <div className="container mx-auto flex flex-col ">
-        <h1 className="text-center md:text-3xl font-bold text-indigo-600">
+    <div className="   absolute text-center  w-[230px]  md:left-10 md:top-10 lg:left-20 lg:top-20 xl:left-10 xl:top-20 2xl:left-56 2xl:top-20  ">
+      <div className="container mx-auto  text-center flex flex-col md:gap-3 xl:gap-7 justify-center">
+        <h1 className=" text-gradient font-black text-center text-sm md:text-xl ">
           LIVE MINT
         </h1>
-        <div className="flex flex-row justify-center items-center mt-12">
+        <div className="flex flex-row justify-center items-center md:mt-2 sm:mt-1">
           <div className="flex items-center space-x-4">
             <button
-              className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"
+              className="bg-gradient-to-r from-indigo-900 to-purple-600  text-white text-sm font-bold sm:w-6 sm:h-6 xl:w-10 xl:h-10  rounded-full"
               onClick={handleDecrement}
             >
               -
             </button>
-            <span className="w-36 text-3xl text-center bg-indigo-600 px-4 py-1 text-white">
+            <span className="w-14 text-3xl text-center bg-[#180f28]  text-white">
               {count}
             </span>
             <button
-              className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded"
+              className="bg-gradient-to-r from-indigo-900 to-purple-600  text-white text-sm font-bold  sm:w-6 sm:h-6 xl:w-10 xl:h-10  rounded-full"
               onClick={handleIncrement}
             >
               +
             </button>
           </div>
         </div>
-        <p className="  mt-3 bg-slate-600 px-16 py-5 text-center ">ETH:{' '}{value}</p>
-        <button className=" text-3xl text-center mt-10">Connect Walet</button>
+        <p className="  w-32 md:w-32 py-2 text-center ml-10 text-white">
+          ETH: {value}
+        </p>
+        <button className=" bg-gradient-to-r from-indigo-900 to-purple-600 p-5 ml-2  md:text-xl text-sm text-center mr-3 mt-0 xl:mt-24  ">Connect Wallet</button>
       </div>
     </div>
   );

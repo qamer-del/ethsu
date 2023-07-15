@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Anton', sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -20,5 +20,10 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+.text-gradient {
+  background-image: linear-gradient(to right, #2f1d2c, #7874be);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
