@@ -40,7 +40,7 @@ const Box = () => {
             </button>
           </div>
         </div>
-        <p className=" absolute top-[-4rem] right-[-8rem] rotate-45 bg-slate-600 px-16 py-5 text-center mt-4">ETH:{' '}{value}</p>
+        <p className="  mt-3 bg-slate-600 px-16 py-5 text-center ">ETH:{' '}{value}</p>
         <button className=" text-3xl text-center mt-10">Connect Walet</button>
       </div>
     </div>
