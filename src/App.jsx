@@ -24,7 +24,7 @@ function App() {
   const shouldShowRotateMessage = orientation === 'portrait';
 
   return (
-    <div className="bg-cover relative">
+    <div className="bg-cover ">
       {shouldShowRotateMessage && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 text-white text-center">
           <p className="text-lg">
