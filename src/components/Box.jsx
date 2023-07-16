@@ -21,7 +21,7 @@ const handleDecrement = () => {
   return (
     
     <div className= " absolute md:top-[5%] lg:top-[10%] left-[5%] w-[25%] ">
-      <div className="container mx-auto  text-center flex flex-col lg:gap-10 gap-1  justify-center">
+      <div className="container mx-auto  text-center flex flex-col lg:gap-10 md:gap-1  justify-center">
         <h1 className=" text-gradient font-black text-center text-sm md:text-xl ">
           LIVE MINT
         </h1>
