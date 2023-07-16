@@ -1,22 +1,73 @@
 import { useState } from "react";
+import { useWeb3Modal} from '@web3modal/react'
+import { 
+  useAccount, 
+  useDisconnect,
+  usePrepareContractWrite,
+  useContractWrite,
+  useWaitForTransaction
+} from "wagmi";
 
 const Box = () => {
+  const { open } = useWeb3Modal();
+  const { isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+  const label = isConnected ? "Disconnect" : "Connect Custom";
   const [count, setCount] = useState(0);
-const ethPrice = 0.05;
-const value = (count * ethPrice).toFixed(4).substring(0, 4);
+  const ethPrice = 0.05;
+  // do this instead
+  const [ethAmount, setEthAmount] = useState(0);
 
-const handleIncrement = () => {
-  if (count < 10) {
-    setCount(count + 1);
-  }
-  
-};
+  const value = (count * ethPrice).toFixed(4).substring(0, 4);
+  const [loading, setLoading] = useState(false);
 
-const handleDecrement = () => {
-  if (count > 0) {
-    setCount(count - 1);
+  const { config } = usePrepareContractWrite({
+    address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+    abi: [
+      {
+        name: 'mint',
+        type: 'function',
+        stateMutability: 'nonpayable',
+        inputs: [],
+        outputs: [],
+      },
+    ],
+    functionName: 'mint',
+    value: parseEther(value),
+  })
+
+  const { data, write } = useContractWrite(config)
+
+  const { isLoading, isSuccess } = useWaitForTransaction({
+    hash: data?.hash,
+  })
+
+  const handleIncrement = () => {
+    if (count < 10) {
+      setCount(count + 1);
+    }
+    
+  };
+
+  const handleDecrement = () => {
+    if (count > 0) {
+      setCount(count - 1);
+    }
+  };
+
+  async function onOpen() {
+    setLoading(true);
+    await open();
+    setLoading(false);
   }
-};
+
+  function onClick() {
+    if (isConnected) {
+      disconnect();
+    } else {
+      onOpen();
+    }
+  }
 
   return (
     
@@ -47,7 +98,20 @@ const handleDecrement = () => {
         <p className="   text-center justify-start text-white">
           ETH: {value}
         </p>
-        <button className=" bg-gradient-to-r from-indigo-900 to-purple-600 lg:p-5 p-1   ">Connect Wallet</button>
+        <button className=" bg-gradient-to-r from-indigo-900 to-purple-600 lg:p-5 p-1   " onClick={onClick} disabled={loading}>{loading ? "Loading..." : label}</button>
+        <button
+          className="bg-gradient-to-r from-indigo-900 to-purple-600 lg:p-5 p-1"
+          disabled={!write || isLoading} onClick={() => write()}>
+        {isLoading ? 'Minting...' : 'Mint'}
+        </button>
+        {isSuccess && (
+        <div>
+          Successfully minted your NFT!
+          <div>
+            <a href={`https://etherscan.io/tx/${data?.hash}`}>Etherscan</a>
+          </div>
+        </div>
+      )}
       </div>
     </div>
   );
