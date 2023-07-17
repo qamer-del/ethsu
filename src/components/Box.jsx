@@ -26,14 +26,15 @@ const Box = () => {
     address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
     abi: [
       {
-        name: 'mint',
+        name: 'publicMint',
         type: 'function',
-        stateMutability: 'nonpayable',
-        inputs: [],
+        stateMutability: 'payable',
+        inputs: [{ internalType: 'uint32', name: 'quantity', type: 'uint32' }],
         outputs: [],
       },
     ],
-    functionName: 'mint',
+    functionName: 'publicMint',
+    args: [Number(count)],
     value: parseEther(value),
   })
 
@@ -60,6 +61,15 @@ const Box = () => {
     setLoading(true);
     await open();
     setLoading(false);
+  }
+
+  async function onWrite() {
+    setLoading(true);
+
+    write();
+
+    setLoading(false);
+
   }
 
   function onClick() {
@@ -99,11 +109,11 @@ const Box = () => {
         <p className="   text-center justify-start text-white">
           ETH: {value}
         </p>
-        <button className=" bg-gradient-to-r from-indigo-900 to-purple-600 lg:p-5 p-1   " onClick={onClick} disabled={loading}>{loading ? "Loading..." : label}</button>
-        <button
+        <button className=" bg-gradient-to-r from-indigo-900 to-purple-600 lg:p-5 p-1" hidden={isConnected} onClick={onClick} disabled={loading}>{loading ? "Loading..." : label}</button>
+        <button hidden={!isConnected}
           className="bg-gradient-to-r from-indigo-900 to-purple-600 lg:p-5 p-1"
-          disabled={!write || isLoading} onClick={() => write()}>
-        {isLoading ? 'Minting...' : 'Mint'}
+          disabled={!isConnected || !write} onClick={() => onWrite()}>
+        {loading || isLoading ? 'Minting...' : 'Mint'}
         </button>
         {isSuccess && (
         <div>
