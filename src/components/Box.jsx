@@ -7,6 +7,7 @@ import {
   useContractWrite,
   useWaitForTransaction
 } from "wagmi";
+import { parseEther } from "viem";
 
 const Box = () => {
   const { open } = useWeb3Modal();
