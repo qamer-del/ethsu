@@ -48,7 +48,6 @@ const Box = () => {
     if (count < 10) {
       setCount(count + 1);
     }
-    
   };
 
   const handleDecrement = () => {
@@ -106,7 +105,7 @@ const Box = () => {
             </button>
           </div>
         </div>
-        <p className="   text-center justify-start text-white">
+        <p className="text-center justify-start text-white">
           ETH: {value}
         </p>
         <button className=" bg-gradient-to-r from-indigo-900 to-purple-600 lg:p-5 p-1" hidden={isConnected} onClick={onClick} disabled={loading}>{loading ? "Loading..." : label}</button>
