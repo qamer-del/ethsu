@@ -40,8 +40,15 @@ function App() {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
         <div className="rotate-message text-center">
-          <p className="text-2xl font-bold bg-slate-500">Please rotate your screen</p>
-          <p className="text-lg">to view this content.</p>
+          <p className="text-2xl font-bold">Please rotate your devise</p>
+          <p className="text-lg">to view the website .</p>
+        </div>
+        <div className="rotate-image-container">
+          <img
+            src="./animation_lkivvsq9_small.gif"
+            alt="Rotate your device"
+            className="rotate-image"
+          />
         </div>
       </div>
     );
