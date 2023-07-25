@@ -41,7 +41,7 @@ function App() {
       <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
         <div className="rotate-message text-center">
           <p className="text-2xl font-bold">Please rotate your screen</p>
-          <p className="text-lg text-red-500">to view this content.</p>
+          <p className="text-lg">to view this content.</p>
         </div>
       </div>
     );
@@ -61,7 +61,7 @@ function App() {
 
   return (
     <>
-      {isMobile && !isPortrait ? renderScreenRotationMessage() : renderHomePage()}
+      {isMobile && isPortrait ? renderHomePage() : renderScreenRotationMessage()}
     </>
   );
 }
