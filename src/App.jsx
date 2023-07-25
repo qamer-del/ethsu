@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+
+import { isMobile } from 'react-device-detect';
 import Box from "./components/Box";
 import Navbar from "./components/Navbar";
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
@@ -18,48 +19,33 @@ const wagmiConfig = createConfig({
 const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
 function App() {
-  const [orientation, setOrientation] = useState('');
+  const renderScreenRotationMessage = () => {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
+        <div className="rotate-message text-center">
+          <p className="text-2xl font-bold">Please rotate your screen</p>
+          <p className="text-lg">to view this content.</p>
+        </div>
+      </div>
+    );
+  };
 
-  useEffect(() => {
-    const handleOrientationChange = () => {
-      setOrientation(
-        window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
-      );
-    };
-
-    handleOrientationChange();
-
-    window.addEventListener('orientationchange', handleOrientationChange);
-
-    return () => {
-      window.removeEventListener('orientationchange', handleOrientationChange);
-    };
-  }, []);
-
-  const shouldShowRotateMessage = orientation === 'portrait';
+  const renderHomePage = () => {
+    return (
+      <WagmiConfig config={wagmiConfig}>
+        <div className="bg-cover">
+          <Navbar />
+          <Box />
+        </div>
+        <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+      </WagmiConfig>
+    );
+  };
 
   return (
-   <>
-   <WagmiConfig config={wagmiConfig}>
-   <div className="bg-cover ">
-      {shouldShowRotateMessage && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 text-white text-center">
-          <p className="text-lg">
-            Please rotate your phone to view this page.
-          </p>
-        </div>
-      )}
-
-      <div className={shouldShowRotateMessage ? 'hidden' : ''}>
-        <Navbar />
-        <Box />
-      </div>
-    </div>
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
-
-      </WagmiConfig>
-    
-   </>
+    <>
+      {isMobile ? renderScreenRotationMessage() : renderHomePage()}
+    </>
   );
 }
 

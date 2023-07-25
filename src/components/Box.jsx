@@ -118,7 +118,7 @@ const Box = () => {
         <button hidden={!isConnected}
           className="bg-gradient-to-r from-indigo-900 to-purple-600 lg:px-8 lg:py-4 px-4 py-2 mx-4 rounded-md"
           disabled={!isConnected} onClick={() => onWrite()}>
-            {loading || isLoading ? 'Minting...' : 'Mint'}
+            {loading || isLoading ? 'Minting...' : ' Mint '}
         </button>
         
         </span>
