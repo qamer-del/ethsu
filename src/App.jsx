@@ -43,7 +43,7 @@ function App() {
           <p className="text-2xl font-bold">Please rotate your devise</p>
           <p className="text-lg">to view the website .</p>
         </div>
-        <div className="rotate-image-container">
+        <div className="">
           <img
             src="./animation_lkivvsq9_small.gif"
             alt="Rotate your device"
