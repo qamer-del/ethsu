@@ -1,4 +1,4 @@
-
+import  { useState, useEffect } from 'react';
 import { isMobile } from 'react-device-detect';
 import Box from "./components/Box";
 import Navbar from "./components/Navbar";
@@ -19,6 +19,20 @@ const wagmiConfig = createConfig({
 const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
 function App() {
+  const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
+
+  useEffect(() => {
+    function handleOrientationChange() {
+      setIsPortrait(window.innerHeight > window.innerWidth);
+    }
+
+    window.addEventListener('orientationchange', handleOrientationChange);
+
+    return () => {
+      window.removeEventListener('orientationchange', handleOrientationChange);
+    };
+  }, []);
+
   const renderScreenRotationMessage = () => {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
@@ -44,7 +58,7 @@ function App() {
 
   return (
     <>
-      {isMobile ? renderScreenRotationMessage() : renderHomePage()}
+      {isMobile && isPortrait ? renderScreenRotationMessage() : renderHomePage()}
     </>
   );
 }
