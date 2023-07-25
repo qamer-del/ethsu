@@ -7,29 +7,32 @@ import { Web3Modal } from '@web3modal/react'
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
 import { arbitrum, mainnet, polygon } from 'wagmi/chains'
 
-const chains = [arbitrum, mainnet, polygon]
-const projectId = '108e51b6ecddbfe5f14d216a1ed99a40'
+const chains = [arbitrum, mainnet, polygon];
+const projectId = '108e51b6ecddbfe5f14d216a1ed99a40';
 
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
+const { publicClient } = configureChains(chains, [w3mProvider({ projectId })]);
 const wagmiConfig = createConfig({
   autoConnect: true,
   connectors: w3mConnectors({ projectId, chains }),
   publicClient
-})
-const ethereumClient = new EthereumClient(wagmiConfig, chains)
+});
+const ethereumClient = new EthereumClient(wagmiConfig, chains);
 
 function App() {
-  const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
+  const [isPortrait, setIsPortrait] = useState(
+    window.matchMedia("(orientation: portrait)").matches
+  );
 
   useEffect(() => {
-    function handleOrientationChange() {
-      setIsPortrait(window.innerHeight > window.innerWidth);
+    function handleOrientationChange(e) {
+      setIsPortrait(e.matches);
     }
 
-    window.addEventListener('orientationchange', handleOrientationChange);
+    const mediaQueryList = window.matchMedia("(orientation: portrait)");
+    mediaQueryList.addEventListener('change', handleOrientationChange);
 
     return () => {
-      window.removeEventListener('orientationchange', handleOrientationChange);
+      mediaQueryList.removeEventListener('change', handleOrientationChange);
     };
   }, []);
 
@@ -38,7 +41,7 @@ function App() {
       <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
         <div className="rotate-message text-center">
           <p className="text-2xl font-bold">Please rotate your screen</p>
-          <p className="text-lg">to view this content.</p>
+          <p className="text-lg text-red-500">to view this content.</p>
         </div>
       </div>
     );
@@ -58,7 +61,7 @@ function App() {
 
   return (
     <>
-      {isMobile && isPortrait ? renderScreenRotationMessage() : renderHomePage()}
+      {isMobile && !isPortrait ? renderScreenRotationMessage() : renderHomePage()}
     </>
   );
 }
