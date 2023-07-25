@@ -38,7 +38,7 @@ function App() {
 
   const renderScreenRotationMessage = () => {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-900 text-white">
+      <div className="flex items-center flex-row justify-center h-screen bg-gray-900 text-white">
         <div className="rotate-message text-center">
           <p className="text-2xl font-bold">Please rotate your devise</p>
           <p className="text-lg">to view the website .</p>
