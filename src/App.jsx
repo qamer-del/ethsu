@@ -41,7 +41,7 @@ function App() {
       <div className="flex items-center flex-col justify-center h-screen bg-gray-900 text-white">
         <div className="rotate-message text-center">
           <p className="text-2xl font-bold">Please rotate your devise</p>
-          <p className="text-lg">to view the website .</p>
+          <p className="text-lg text-gray-500">to view the website .</p>
         </div>
         <div className="">
           <img
