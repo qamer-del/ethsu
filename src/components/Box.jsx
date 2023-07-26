@@ -81,7 +81,7 @@ const Box = () => {
 
   return (
     
-    <div className= "absolute mx-4 border-[#6f7081] border bg-[#131313]  md:top-[5%] lg:top-[10%] left-[5%] w-[30%] py-4">
+    <div className= "absolute mx-4 border-[#6f7081] border bg-[#131313]  md:top-[5%] lg:top-[10%] left-[5%] sm:w-[30%] w-[65%] py-4">
       <div className="container mx-auto  text-center flex flex-col lg:gap-10 md:gap-1  justify-center">
         <h1 className=" text-gradient font-black text-center text-sm md:text-xl ">
           LIVE MINT
@@ -110,11 +110,11 @@ const Box = () => {
         </p>
         <button className="bg-gradient-to-r from-indigo-900 to-purple-600 lg:p-4 p-1" hidden={isConnected} onClick={onClick} disabled={loading}>{loading ? "Loading..." : label}</button>
         <span>
-        <button hidden={!isConnected}
-          className="bg-gradient-to-r opacity-50 from-indigo-900 to-purple-600 lg:px-8 lg:py-4 px-4 py-2 mx-4 rounded-md"
-          disabled>
-            Stake
-        </button>
+        <button hidden={!isConnected} className="opacity-20 cursor-no-drop bg-gradient-to-r from-indigo-900 to-purple-600 lg:px-8 lg:py-4 px-4 py-2 mx-4 rounded-md" disabled
+      title="Coming Soon"
+    >
+      Stake
+    </button>
         <button hidden={!isConnected}
           className="bg-gradient-to-r from-indigo-900 to-purple-600 lg:px-8 lg:py-4 px-4 py-2 mx-4 rounded-md"
           disabled={!isConnected} onClick={() => onWrite()}>
