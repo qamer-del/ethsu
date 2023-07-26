@@ -1,4 +1,7 @@
-import { useEffect, useState } from 'react';
+
+
+import  { useState, useEffect } from 'react';
+import { isMobile } from 'react-device-detect';
 import Box from "./components/Box";
 import Navbar from "./components/Navbar";
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
@@ -18,49 +21,57 @@ const wagmiConfig = createConfig({
 const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
 function App() {
-  const [orientation, setOrientation] = useState('');
+  const [isPortrait, setIsPortrait] = useState(
+    window.matchMedia("(orientation: portrait)").matches
+  );
 
   useEffect(() => {
-    const handleOrientationChange = () => {
-      setOrientation(
-        window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'
-      );
-    };
+    function handleOrientationChange(e) {
+      setIsPortrait(e.matches);
+    }
 
-    handleOrientationChange();
-
-    window.addEventListener('orientationchange', handleOrientationChange);
+    const mediaQueryList = window.matchMedia("(orientation: portrait)");
+    mediaQueryList.addEventListener('change', handleOrientationChange);
 
     return () => {
-      window.removeEventListener('orientationchange', handleOrientationChange);
+      mediaQueryList.removeEventListener('change', handleOrientationChange);
     };
   }, []);
 
-  const shouldShowRotateMessage = orientation === 'portrait';
-
-  return (
-   <>
-   <WagmiConfig config={wagmiConfig}>
-   <div className="bg-cover ">
-      {shouldShowRotateMessage && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 text-white text-center">
-          <p className="text-lg">
-            Please rotate your phone to view this page.
-          </p>
+  const renderScreenRotationMessage = () => {
+    return (
+      <div className="flex items-center flex-col justify-center h-screen bg-gray-900 text-white">
+        <div className="rotate-message text-center">
+          <p className="text-2xl font-bold">Please rotate your devise</p>
+          <p className="text-lg text-gray-500">to view the website .</p>
         </div>
-      )}
-
-      <div className={shouldShowRotateMessage ? 'hidden' : ''}>
-        <Navbar />
-        <Box />
+        <div className="">
+        <img
+           src="./animation_lkivvsq9_small.gif"
+            alt="Rotate your device"
+            className="rotate-image"
+          />
+        </div>
       </div>
-    </div>
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+    );
+  };
 
+  const renderHomePage = () => {
+    return (
+      <WagmiConfig config={wagmiConfig}>
+       <div className="bg-cover">
+          <Navbar />
+          <Box />
+        </div>
+        <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
       </WagmiConfig>
-    
-   </>
-  );
-}
+    );
+  };
 
+ return (
+    <>
+      {isMobile && isPortrait ? renderScreenRotationMessage() :  renderHomePage() }
+    </>
+ );
+}
 export default App;
