@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from 'react';
 import { useWeb3Modal} from '@web3modal/react'
 import { 
   useAccount, 
@@ -9,21 +9,21 @@ import {
 } from "wagmi";
 import { parseEther } from "viem";
 
-const Box = () => {
+const Box = ({ appConfig }) =>{
+  const { CONTRACT_ADDRESS, PRICE } = appConfig ? appConfig : {};
   const { open } = useWeb3Modal();
   const { isConnected } = useAccount();
   const { disconnect } = useDisconnect();
   const label = isConnected ? "Disconnect" : "Connect";
-  const [count, setCount] = useState(0);
-  const ethPrice = 0.05;
+  const [count, setCount] = useState(1);
+  const ethPrice = PRICE || 0;
   // do this instead
   const [ethAmount, setEthAmount] = useState(0);
 
   const value = (count * ethPrice).toFixed(4).substring(0, 4);
   const [loading, setLoading] = useState(false);
-
   const { config } = usePrepareContractWrite({
-    address: '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+    address: CONTRACT_ADDRESS,
     abi: [
       {
         name: 'publicMint',

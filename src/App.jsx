@@ -21,11 +21,24 @@ const wagmiConfig = createConfig({
 const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
 function App() {
+  const [appConfig, setAppConfig] = useState(null);
   const [isPortrait, setIsPortrait] = useState(
     window.matchMedia("(orientation: portrait)").matches
   );
 
+  async function getConfig() {
+    try {
+      const res = await fetch('/config.json');
+      const data = await res.json();
+      setAppConfig(data);
+    } catch (error) {
+      console.error('Error fetching config:', error);
+      setAppConfig(null);
+    }
+  }
+
   useEffect(() => {
+    getConfig();
     function handleOrientationChange(e) {
       setIsPortrait(e.matches);
     }
@@ -61,7 +74,7 @@ function App() {
       <WagmiConfig config={wagmiConfig}>
        <div className="bg-cover">
           <Navbar />
-          <Box />
+          <Box appConfig={appConfig}/>
         </div>
         <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
       </WagmiConfig>
